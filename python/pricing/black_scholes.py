@@ -40,7 +40,23 @@ def black_scholes_vega(S, K, r, sigma, T):
 
     return vega
 
-print(black_scholes_vega(100, 100, 0.05, 0.2, 1)) #37.52403469169379
+def black_scholes_theta(S, K, r, sigma, T, option_price='call'):
+    d1 = (np.log(S/K) + (r + ((sigma ** 2) / 2)) * T ) / (sigma * np.sqrt(T))
+    d2 = d1 - (sigma * np.sqrt(T))
+
+    if option_price == 'call':
+        theta = -(
+            (S * norm.pdf(d1) * sigma )
+            / 2 * np.sqrt(T)) - (r * K * np.exp(-r * T) * norm.cdf(d2))
+    elif option_price == 'put':
+        theta = -(
+            (S * norm.pdf(d1) * sigma )
+            / 2 * np.sqrt(T)) + (r * K * np.exp(-r * T) * norm.cdf(d2))     
+    else:
+        raise ValueError(f"option_type must be 'call' or 'put', got '{option_price}'")  
+
+    return theta
+
 
 
 
