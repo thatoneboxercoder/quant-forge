@@ -47,19 +47,28 @@ def black_scholes_theta(S, K, r, sigma, T, option_price='call'):
     if option_price == 'call':
         theta = -(
             (S * norm.pdf(d1) * sigma )
-            / 2 * np.sqrt(T)) - (r * K * np.exp(-r * T) * norm.cdf(d2))
+            / (2 * np.sqrt(T))) - (r * K * np.exp(-r * T) * norm.cdf(d2))
     elif option_price == 'put':
         theta = -(
             (S * norm.pdf(d1) * sigma )
-            / 2 * np.sqrt(T)) + (r * K * np.exp(-r * T) * norm.cdf(d2))     
+            / (2 * np.sqrt(T))) + (r * K * np.exp(-r * T) * norm.cdf(-d2))     
     else:
         raise ValueError(f"option_type must be 'call' or 'put', got '{option_price}'")  
 
     return theta
 
+def black_scholes_rho(S, K, r, sigma, T, option_price='call'):
+    d1 = (np.log(S/K) + (r + ((sigma ** 2) / 2)) * T ) / (sigma * np.sqrt(T))
+    d2 = d1 - (sigma * np.sqrt(T))
 
+    if option_price == 'call':
+        rho = (K * T * np.exp(-r * T) * norm.cdf(d2))
+    elif option_price == 'put':
+        rho = (-K * T * np.exp(-r * T) * norm.cdf(-d2))
+    else:
+        raise ValueError(f"option_type must be 'call' or 'put', got '{option_price}'")  
 
-
+    return rho
 
 
 
