@@ -12,7 +12,7 @@ double black_scholes_price(
     double r, 
     double sigma,
     double T,
-    std::string option_type = "call" 
+    string option_type = "call" 
 );
 
 double black_scholes_delta(
