@@ -67,8 +67,4 @@ def black_scholes_rho(S, K, r, sigma, T, option_price='call'):
         rho = (-K * T * np.exp(-r * T) * norm.cdf(-d2))
     else:
         raise ValueError(f"option_type must be 'call' or 'put', got '{option_price}'")  
-
     return rho
-
-
-
