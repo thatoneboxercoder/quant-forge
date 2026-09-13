@@ -14,9 +14,22 @@ def black_scholes_price (S, K, r, sigma, T, option_type ='call'):
     
     return price
 
-print(black_scholes_price(100, 100, 0.05, 0.2, 1, option_type='call')) #10.450583572185565
-print(black_scholes_price(100, 100, 0.05, 0.2, 1, option_type='put'))  #5.573526022256971
+def black_scholes_delta(S, K, r, sigma, T, option_type='call'):
+    d1 = (np.log(S/K) + (r + ((sigma ** 2) / 2)) * T ) / (sigma * np.sqrt(T))
+    d2 = d1 - (sigma * np.sqrt(T))
 
-print(black_scholes_price(150, 100, 0.05, 0.2, 1, option_type='call')) #54.970140137999195
-print(black_scholes_price(110, 100, 0.05, 0.0001, 1, option_type='call')) #14.877057549928594
+    if option_type == 'call':
+        delta = norm.cdf(d1)
+    elif option_type == 'put':
+        delta = norm.cdf(d1) - 1
+    else:
+        raise ValueError(f"option_type must be 'call' or 'put', got '{option_type}'")
+
+    return delta
+
+print(black_scholes_delta(100, 100, 0.05, 0.2, 1, 'call')) # 0.6368306511756191
+print(black_scholes_delta(100, 100, 0.05, 0.2, 1, 'put'))  # -0.3631693488243809
+
+
+
 
