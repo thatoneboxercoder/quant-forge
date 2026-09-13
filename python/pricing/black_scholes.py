@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import norm
 
-def black_scholes_price (S, K, r, sigma, T, option_type ='call'):
+def black_scholes_price(S, K, r, sigma, T, option_type ='call'):
     d1 = (np.log(S/K) + (r + ((sigma ** 2) / 2)) * T ) / (sigma * np.sqrt(T))
     d2 = d1 - (sigma * np.sqrt(T))
  
@@ -33,7 +33,15 @@ def black_scholes_gamma(S, K, r, sigma, T):
 
     return gamma
 
-print(black_scholes_gamma(100, 100, 0.05, 0.2, 1)) #0.018762017345846895
+def black_scholes_vega(S, K, r, sigma, T):
+    d1 = (np.log(S/K) + (r + ((sigma ** 2) / 2)) * T ) / (sigma * np.sqrt(T))
+
+    vega = S * norm.pdf(d1) * np.sqrt(T)
+
+    return vega
+
+print(black_scholes_vega(100, 100, 0.05, 0.2, 1)) #37.52403469169379
+
 
 
 
